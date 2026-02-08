@@ -1,5 +1,7 @@
 package com.saakshi.expense_calculator.controller;
 import com.saakshi.expense_calculator.dto.DetailsDto;
+import com.saakshi.expense_calculator.enums.Direction;
+
 import com.saakshi.expense_calculator.models.Owns;
 import com.saakshi.expense_calculator.repositories.OwnsRepo;
 import lombok.Data;
@@ -20,7 +22,13 @@ public class OwnsController {
     public void enterDetils(@RequestBody DetailsDto detailsDto)
     {
         Owns own = new Owns();
+        if (detailsDto.getName() =="") {
+            throw new IllegalArgumentException("Please enter name");
+        }
         own.setOtherPartyName(detailsDto.getName());
+        if (detailsDto.getAmount() <= 0) {
+            throw new IllegalArgumentException("Amount must be greater than 0");
+        }
         own.setAmount(detailsDto.getAmount());
         own.setCreatedAt(LocalDateTime.now());
         own.setPaid(false);
@@ -79,5 +87,10 @@ public class OwnsController {
         Owns own = ownsRepo.findById(id).orElseThrow(()->new RuntimeException("Record not found"));
         own.setPaid(true);
         ownsRepo.save(own);
+    }
+
+    @GetMapping("/direction")
+    public List<Owns> byDirection(@RequestParam Direction direction) {
+        return ownsRepo.findByDirection(direction);
     }
 }
