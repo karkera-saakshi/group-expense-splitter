@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Manager</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #1A1A2E;
+            --card-bg: #2B2B46;
+            --card-border: #303150;
+            --turquoise: #0DBACC;
+            --lavender: #9F7FE0;
+            --cotton-candy: #F18AB5;
+            --steel: #BDBDCB;
+            --white: #F7F7F8;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            margin: 0;
+            background: radial-gradient(circle at center, #2B2B46 0%, #1A1A2E 100%);
+            color: var(--white);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #title {
+            font-size: 50px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .highlight {
+            color: var(--cotton-candy);
+        }
+
+        #subtitle {
+            font-size: 18px;
+            color: var(--steel);
+            max-width: 600px;
+            text-align: center;
+            margin-bottom: 50px;
+            opacity: 0.8;
+            line-height: 1.5;
+        }
+
+        #container {
+            display: flex;
+            gap: 40px;
+        }
+
+        /* Refined Card Sizing & Base State */
+        #contain1, #contain2 {
+            background: rgba(43, 43, 70, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--card-border);
+            border-radius: 32px;
+            width: 280px;
+            padding: 40px 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            /* Smooth transition for subtle effect */
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Subtler Hover Effect */
+        #contain1:hover, #contain2:hover {
+            transform: scale(1.02) translateY(-4px); /* Very slight lift and grow */
+            border-color: rgba(13, 186, 204, 0.4);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+        }
+
+        #img1, #img2 {
+            height: 220px;
+            width: 220px;
+            border-radius: 24px;
+            margin-bottom: 35px;
+            object-fit: cover;
+            filter: brightness(90%);
+            transition: filter 0.3s ease;
+        }
+
+        #contain1:hover img, #contain2:hover img {
+            filter: brightness(105%);
+        }
+
+        button {
+            width: 100%;
+            padding: 18px;
+            border-radius: 20px;
+            border: none;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        #btn1 {
+            background-color: var(--lavender);
+            box-shadow: 0 5px 15px rgba(159, 127, 224, 0.2);
+        }
+
+        #btn1:hover {
+            background-color: #B496F0;
+            box-shadow: 0 8px 20px rgba(159, 127, 224, 0.4);
+        }
+
+        #btn2 {
+            background-color: var(--turquoise);
+            box-shadow: 0 5px 15px rgba(13, 186, 204, 0.2);
+        }
+
+        #btn2:hover {
+            background-color: #12D3E6;
+            box-shadow: 0 8px 20px rgba(13, 186, 204, 0.4);
+        }
+
+        button:active {
+            transform: scale(0.97);
+        }
+
+        @media (max-width: 700px) {
+            #container { flex-direction: column; gap: 20px; }
+            #title { font-size: 36px; }
+        }
+    </style>
+</head>
+<body>
+
+<h2 id="title">Track expenses. Split costs. <span class="highlight">Stay clear.</span></h2>
+<p id="subtitle">Whether it’s trips, outings, or shared living costs, this tool simplifies group expense tracking and settlements.</p>
+
+<div id="container">
+    <div id="contain1">
+        <img src="img1.jpg" alt="Splitter" id="img1">
+        <button id="btn1">Group Expense Splitter</button>
+    </div>
+
+    <div id="contain2">
+        <img src="img2.jpg" alt="Debts" id="img2">
+        <button id="btn2">Who Owes Whom</button>
+    </div>
+</div>
+
+</body>
+</html>
