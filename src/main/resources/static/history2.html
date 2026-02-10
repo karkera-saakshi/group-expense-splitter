@@ -85,6 +85,20 @@
             background: rgba(255, 255, 255, 0.05);
         }
 
+        select {
+            background: var(--card-bg);
+            color: var(--white);
+            border: 1px solid var(--lavender);
+            border-radius: 8px;
+            padding: 5px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        select:focus {
+            border-color: var(--turquoise);
+            box-shadow: 0 0 5px var(--turquoise);
+        }
     </style>
 </head>
 <body>
@@ -105,34 +119,45 @@
         </tbody>
     </table>
 </div>
-
 <script>
     const historyData = [
-        { name: "A", amount: 300, time: "2026-02-08 10:30", paid: true },
-        { name: "B", amount: 500, time: "2026-02-08 10:35", paid: false },
-        { name: "C", amount: 200, time: "2026-02-08 10:40", paid: true }
-    ];
+    { id: 1, name: "A", amount: 300, time: "2026-02-08 10:30", paid: true },
+    { id: 2, name: "B", amount: 500, time: "2026-02-08 10:35", paid: false },
+    { id: 3, name: "C", amount: 200, time: "2026-02-08 10:40", paid: true }
+];
 
-    function loadHistory(){
-        const tableBody = document.getElementById("historyTable");
-        tableBody.innerHTML = "";
-        historyData.forEach(entry => {
-            const statusClass = entry.paid ? 'row-paid' : 'row-not-paid';
+function loadHistory() {
+    const tableBody = document.getElementById("historyTable");
+    tableBody.innerHTML = "";
 
-            tableBody.innerHTML += `
-                <tr class="${statusClass}">
-                    <td>${entry.name}</td>
-                    <td>₹${entry.amount}</td>
-                    <td>${entry.time}</td>
-                    <td style="font-weight: bold;">
-                        ${entry.paid ? 'PAID' : 'PENDING'}
-                    </td>
-                </tr>
-            `;
-        });
+    historyData.forEach(entry => {
+        const tr = document.createElement("tr");
+        tr.className = entry.paid ? 'row-paid' : 'row-not-paid';
+
+        tr.innerHTML = `
+            <td>${entry.name}</td>
+            <td>₹${entry.amount}</td>
+            <td>${entry.time}</td>
+            <td style="font-weight: bold;">
+                <select onchange="updateStatus(${entry.id}, this.value)">
+                    <option value="PAID" ${entry.paid ? 'selected' : ''}>PAID</option>
+                    <option value="PENDING" ${!entry.paid ? 'selected' : ''}>PENDING</option>
+                </select>
+            </td>
+        `;
+        tableBody.appendChild(tr);
+    });
+}
+
+function updateStatus(id, newStatus) {
+    const record = historyData.find(item => item.id === id);
+    if (record) {
+        record.paid = (newStatus === "PAID");
+        loadHistory(); // Re-render to update row colors
     }
+}
 
-    loadHistory();
+loadHistory();
 </script>
 </body>
 </html>
