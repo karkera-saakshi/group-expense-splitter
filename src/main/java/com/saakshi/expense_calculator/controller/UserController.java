@@ -27,18 +27,18 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginDto loginDto) throws Exception {
+    public ResponseEntity<?>  login(@RequestBody LoginDto loginDto) throws Exception {
         User user = userRepo.findByUsername(loginDto.getUsername());
         if (user == null) {
             // Return plain text message, status 401
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not found");
+            return ResponseEntity.status(404).body("User not found");
         }
 
         if (!user.getPassword().equals(loginDto.getPassword())) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Incorrect password");
+            return ResponseEntity.status(401).body("Incorrect password");
         }
 
-        return ResponseEntity.ok("Login successful");
+        return ResponseEntity.ok(user);
     }
     @Autowired
     ExpenseCalculationService expenseCalculationService;

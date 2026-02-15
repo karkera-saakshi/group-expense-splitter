@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class DetailsDto {
     String selfName;
     String otherPartyName;
-    boolean isPaid;
+    //boolean isPaid;
     double amount;
     Direction direction;
 }

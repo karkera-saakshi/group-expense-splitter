@@ -119,7 +119,7 @@
             otherPartyName: otherPartyName,
             amount: amount,
             direction: "I_OWN",
-            isPaid: false
+<!--            isPaid: false-->
         };
 
         try {
@@ -136,15 +136,13 @@
                     document.getElementById('otherName').value = "";
                     document.getElementById('amount').value = "";
                 } else {
-                    // manually throw error so it goes to catch
                     return response.text().then(text => { throw new Error(text) });
                 }
             })
-            .catch(err => {  // this is the fetch error handler
+            .catch(err => {
                 alert("Error: " + err.message);
             });
         } catch (err) {
-            // catch any synchronous errors (rare in this case)
             alert("Error: " + err.message);
         }
     });

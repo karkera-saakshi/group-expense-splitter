@@ -178,37 +178,45 @@
 </div>
 
 <script>
-    document.getElementById("loginForm").addEventListener("submit",async function (event) {
-     event.preventDefault();
-        const user={
-            username: document.getElementById("username").value,
-            password: document.getElementById("password").value
-        };
-        try{
-            const response = await fetch("http://localhost:8081/login",{
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(user)
-            });
-                 if (!response.ok) {
-                const errorMessage = await response.text();
-                alert(errorMessage); // will show only "User not found" or "Incorrect password"
-                return;
-            }
+    document.getElementById("loginForm").addEventListener("submit", async function (event) {
+    event.preventDefault();
 
+    const loginData = {   // renamed from user
+        username: document.getElementById("username").value,
+        password: document.getElementById("password").value
+    };
 
-            const result = await response.text();
-            alert(result);
-            window.location.href = 'option.html';
+    try {
+        const response = await fetch("http://localhost:8081/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(loginData)
+        });
+
+        if (!response.ok) {
+            const errorMessage = await response.text();
+            alert(errorMessage);
+            return;
         }
-        catch(error)
-        {
-            console.error("Error: "+error);
-            alert("Something went wring");
-        }
-    });
+
+        const loggedInUser = await response.json();  // renamed
+
+        // store user id
+        localStorage.setItem("userId", loggedInUser.id);
+
+        window.location.href = "option.html";
+
+    } catch (error) {
+        console.error("Error:", error);
+        alert("Something went wrong");
+    }
+});
+
 </script>
+
+
+
 </body>
 </html>

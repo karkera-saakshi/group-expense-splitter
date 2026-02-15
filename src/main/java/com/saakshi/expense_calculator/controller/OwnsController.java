@@ -47,7 +47,7 @@ public class OwnsController {
         }
         own.setAmount(detailsDto.getAmount());
         own.setCreatedAt(LocalDateTime.now());
-        own.setPaid(detailsDto.isPaid());
+        own.setPaid(false);
         own.setUser(user);  // MUST set this
         own.setDirection(detailsDto.getDirection());
 
@@ -61,66 +61,72 @@ public class OwnsController {
     }
 
     @GetMapping("/sort")
-    public List<Owns> sort(@RequestParam String sortBy1,@RequestParam String sortBy2, @RequestParam String paid)
-    {
-        Sort sort;
-        switch(sortBy1)
-        {
+    public List<Owns> sort(
+            @RequestParam Long userId,
+            @RequestParam String sortBy1,
+            @RequestParam String sortBy2,
+            @RequestParam String paid) {
+
+        // --- 1. Handle first sort (amount) ---
+        Sort sort1;
+        switch (sortBy1.toLowerCase()) {
             case "amount_desc":
-                sort = Sort.by("amount").ascending();
+                sort1 = Sort.by("amount").descending();
                 break;
-
-            case "amount_asec":
-                sort = Sort.by("amount").ascending();
+            case "amount_asc":
+            case "default":
+                sort1 = Sort.by("amount").ascending();
                 break;
-
             default:
-                throw new IllegalArgumentException("Invalid sortBy value");
+                sort1 = Sort.by("amount").ascending();
         }
 
-        switch(sortBy2)
-        {
-            case "time_asc":
-                sort = Sort.by("createdAt").ascending();
-                break;
+        // --- 2. Handle second sort (time) ---
+        Sort sort2;
+        switch (sortBy2.toLowerCase()) {
             case "time_desc":
-                sort = Sort.by("createdAt").descending();
+                sort2 = Sort.by("createdAt").descending();
                 break;
-
+            case "time_asc":
+                sort2 = Sort.by("createdAt").ascending();
+                break;
             default:
-                throw new IllegalArgumentException("Invalid sortBy value");
+                sort2 = Sort.by("createdAt").descending();
         }
 
-        if (paid.equalsIgnoreCase("paid"))
-        {
-            return ownsRepo.findByPaid(true, sort);
+        // --- 3. Combine both sorts ---
+        Sort combinedSort = sort2.and(sort1);
+
+        // --- 4. Filter by paid status and user ---
+        if (paid.equalsIgnoreCase("paid")) {
+            return ownsRepo.findByUserIdAndPaid(userId, true, combinedSort);
+        } else if (paid.equalsIgnoreCase("unpaid")) {
+            return ownsRepo.findByUserIdAndPaid(userId, false, combinedSort);
+        } else if (paid.equalsIgnoreCase("all")) {
+            return ownsRepo.findByUserId(userId, combinedSort);
+        } else {
+            throw new IllegalArgumentException("Invalid paid value: " + paid);
         }
-        else if (paid.equalsIgnoreCase("unpaid"))
-        {
-            return ownsRepo.findByPaid(false, sort);
-        }
-        else if (paid.equalsIgnoreCase("all")) {
-            return ownsRepo.findAll(sort);
-        }
-        else{
-            throw new IllegalArgumentException("Invalid paid value");
-        }
-    }
-    @PatchMapping("/ispaid/{id}")
-    public void ispaid(@PathVariable int id)
-    {
-        Owns own = ownsRepo.findById(id).orElseThrow(()->new RuntimeException("Record not found"));
-        own.setPaid(true);
-        ownsRepo.save(own);
     }
 
-    @GetMapping("/delete/{userId}/{historyId}")
+    @DeleteMapping("/delete/{userId}/{historyId}")
     public void delete(@PathVariable int userId, @PathVariable int historyId)
     {
         User user = userRepo.findById(userId).orElseThrow(()-> new RuntimeException("User not found"));
         Owns own = ownsRepo.findById(historyId).orElseThrow(()-> new RuntimeException("Transaction not found"));
         ownsRepo.delete(own);
     }
+
+    @PatchMapping("/status/{id}")
+    public void updateStatus(@PathVariable int id, @RequestParam boolean paid) {
+
+        Owns own = ownsRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Record not found"));
+
+        own.setPaid(paid);
+        ownsRepo.save(own);
+    }
+
 
     @GetMapping("/direction")
     public List<Owns> byDirection(@RequestParam Direction direction) {
