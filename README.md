@@ -91,7 +91,7 @@ This project focuses on applying backend concepts like **MVC architecture, datab
 
 ✅ Expense split calculation completed
 
-✅ Debt tracking completed, where user can get teh total remaining and total payment done, can dynamically update if the payment is paid or pending
+✅ Debt tracking completed, where user can get teh total remaining and total payment done, can dynamically update if the payment is paid or pending, user can also delete any record
 
 🚧 Email reminder automation in progress
 
