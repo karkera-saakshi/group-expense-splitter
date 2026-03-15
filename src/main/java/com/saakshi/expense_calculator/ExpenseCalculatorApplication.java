@@ -16,7 +16,7 @@ public class ExpenseCalculatorApplication {
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder()
-    {
+                  {
         return new BCryptPasswordEncoder(10);
     }
 }

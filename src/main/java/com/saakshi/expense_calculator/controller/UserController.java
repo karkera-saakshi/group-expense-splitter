@@ -6,11 +6,14 @@ import com.saakshi.expense_calculator.dto.PersonDto;
 import com.saakshi.expense_calculator.models.User;
 import com.saakshi.expense_calculator.repositories.UserRepo;
 import com.saakshi.expense_calculator.services.ExpenseCalculationService;
+import com.saakshi.expense_calculator.utils.JwtUtil;
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.w3c.dom.ls.LSOutput;
 
 import java.util.Map;
 
@@ -21,6 +24,8 @@ public class UserController {
     UserRepo userRepo;
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Autowired
+    JwtUtil jwtUtil;
     @PostMapping("/register")
     public String register(@RequestBody User user)
     {
@@ -41,7 +46,14 @@ public class UserController {
             return ResponseEntity.status(401).body("Incorrect password");
         }
 
-        return ResponseEntity.ok(user);
+        //Generate token and return it
+        String token = jwtUtil.generateToken(user.getUsername());
+        return ResponseEntity.ok(Map.of(
+                "token", token,
+                "userId", user.getId(),
+                "username", user.getUsername()
+        ));
+
     }
     @Autowired
     ExpenseCalculationService expenseCalculationService;
