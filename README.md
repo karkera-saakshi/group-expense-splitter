@@ -97,7 +97,7 @@ This project focuses on applying backend concepts like **MVC architecture, datab
 
 ✅ Password Hashing
 
-🚧 JWT Authentication
+✅ JWT Authentication
 
 ## 💡 Learning Outcomes
 
@@ -108,4 +108,6 @@ This project strengthened understanding of:
 * MySQL relational database design
 * Form handling and validation
 * Email automation using Java
+* Password Hashing
+* JWT Tokens
 
