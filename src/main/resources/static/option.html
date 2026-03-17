@@ -133,13 +133,34 @@
             #container { flex-direction: column; gap: 20px; }
             #title { font-size: 36px; }
         }
+
+        #logout {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: rgba(255, 0, 0, 0.582);
+            color: var(--steel);
+            font-size: 13px;
+            padding: 5px 10px;
+            border-radius: 8px;
+            border: 1px solid var(--card-border);
+            width: fit-content;
+            white-space: nowrap;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        #logout:hover {
+            color: var(--white);
+            border-color: var(--card-border);
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+        }
     </style>
 </head>
 <body>
 
 <h2 id="title">Track expenses. Split costs. <span class="highlight">Stay clear.</span></h2>
 <p id="subtitle">Whether it’s trips, outings, or shared living costs, this tool simplifies group expense tracking and settlements.</p>
-
+<button onclick="logout()" id="logout">Logout</button>
 <div id="container">
     <div id="contain1">
         <img src="img1.jpg" alt="Splitter" id="img1">
@@ -163,6 +184,10 @@
     }
     function ownsPage(){
       window.location.href = 'owns.html';
+    }
+    function logout() {
+    localStorage.clear();
+    window.location.href = "login.html";
     }
 </script>
 </body>
