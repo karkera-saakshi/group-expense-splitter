@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Analysis</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 40px;
+            background: #1A1A2E;
+            box-sizing: border-box;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .chart-container {
+            width: 100%;
+            height: 500px;
+            background: rgba(43, 43, 70, 0.7);
+            border-radius: 20px;
+            padding: 30px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+<canvas id="expenseChart" class="chart-container"></canvas>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    async function loadData()
+    {
+        const userId = localStorage.getItem("userId");
+        const token = localStorage.getItem("token");
+        const response = await fetch(`http://localhost:8081/histories/${userId}`,{
+            headers: {"Authorization": "Bearer "+token }
+        });
+        const data = await response.json();
+        console.log(data);
+        const monthlyData = {};
+    data.forEach(item => {
+        const month = new Date(item.createdAt).toLocaleString( 'default' , {month: 'short'});
+        if(!monthlyData[month])
+        {
+            monthlyData[month] = {received: 0, paid: 0};
+        }
+
+        if(item.direction === "OWNS_ME")
+        {
+               monthlyData[month].received += item.amount
+        }
+        else
+        {
+                monthlyData[month].paid += item.amount
+        }
+    })
+    const allMonths = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    allMonths.forEach(month => {
+        if (!monthlyData[month]) {
+            monthlyData[month] = { received: 0, paid: 0 };
+        }
+    });
+    console.log(monthlyData);
+    const labels = allMonths;
+    const received = labels.map(m=>monthlyData[m].received);
+    const paid = labels.map(m=>monthlyData[m].paid);
+    console.log(labels);
+    console.log(received);
+    console.log(paid);
+    const chart = document.getElementById("expenseChart").getContext('2d');
+    new Chart(chart,{
+        type:'bar',
+        data:{
+            labels : labels,
+            datasets: [
+                {
+                    label: 'Received',
+                    data: received,
+                    backgroundColor: 'green'
+                },
+                {
+                    label: 'Paid',
+                    data: paid,
+                    backgroundColor: 'red'
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y:{
+                    beginAtZero: true,
+                }
+            }
+        }
+    });
+   }
+    loadData();
+</script>
+</body>
+</html>
