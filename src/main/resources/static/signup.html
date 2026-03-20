@@ -4,23 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign In</title>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-deep: #1A1A2E;
-            --card-bg: #2B2B46;
-            --card-border: #303150;
-            --turquoise: #0DBACC;
-            --lavender: #9F7FE0;
-            --cotton-candy: #F18AB5;
-            --steel: #BDBDCB;
-            --white: #F7F7F8;
+            --bg-deep: #050a15;
+            --card-bg: rgba(255, 255, 255, 0.04);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --turquoise: #10b981;
+            --lavender: #3b82f6;
+            --cotton-candy: #10b981;
+            --steel: #94a3b8;
+            --white: #f8fafc;
         }
 
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            font-family: 'Nunito', sans-serif;
+            font-family: 'Outfit', sans-serif;
             margin: 0;
-            background: radial-gradient(circle at center, #2B2B46 0%, #1A1A2E 100%);
+            background-color: var(--bg-deep);
+            background-image:
+                radial-gradient(ellipse at 10% 10%, rgba(59, 130, 246, 0.07) 0%, transparent 50%),
+                radial-gradient(ellipse at 90% 90%, rgba(16, 185, 129, 0.07) 0%, transparent 50%);
             color: var(--white);
             min-height: 100vh;
             display: flex;
@@ -33,7 +38,7 @@
             display: flex;
             width: 1000px;
             height: 600px;
-            background: rgba(43, 43, 70, 0.7);
+            background: var(--card-bg);
             backdrop-filter: blur(15px);
             border: 1px solid var(--card-border);
             border-radius: 32px;
@@ -43,7 +48,7 @@
 
         #info {
             flex: 1.3;
-            background: linear-gradient(135deg, var(--lavender) 0%, #6a49ad 100%);
+            background: linear-gradient(135deg, #0a1628 0%, #0d2818 100%);
             padding: 60px;
             display: flex;
             flex-direction: column;
@@ -51,105 +56,202 @@
             clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%);
             position: relative;
             z-index: 2;
+            border-right: 1px solid rgba(16, 185, 129, 0.1);
+        }
+
+        #info::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+        }
+
+        #info::after {
+            content: '';
+            position: absolute;
+            bottom: -80px;
+            left: -80px;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(16,185,129,0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .info-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            background: rgba(16, 185, 129, 0.08);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 50px;
+            font-size: 11px;
+            color: var(--turquoise);
+            font-weight: 500;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            margin-bottom: 28px;
+            width: fit-content;
+            position: relative;
         }
 
         #title {
-            font-size: 45px;
+            font-size: 42px;
             font-weight: 800;
             line-height: 1.1;
             margin-bottom: 20px;
             color: var(--white);
-            text-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            letter-spacing: -1.5px;
+            position: relative;
         }
 
         #sub1, #sub2 {
-            font-size: 18px;
-            color: rgba(255, 255, 255, 0.9);
-            line-height: 1.5;
-            max-width: 400px;
+            line-height: 1.7;
+            max-width: 380px;
+            position: relative;
         }
 
-        #sub1 { margin-top: 20px; font-weight: 700; }
-        #sub2 { margin-top: 10px; opacity: 0.8; }
+        #sub1 {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--white);
+            margin-top: 20px;
+        }
+
+        #sub2 {
+            font-size: 14px;
+            color: var(--steel);
+            margin-top: 8px;
+            font-weight: 300;
+        }
 
         #formContainer2 {
             flex: 1;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            padding: 60px 80px 60px 40px;
-            margin-left: -50px;
+            padding: 60px 70px 60px 50px;
+            margin-left: -30px;
+        }
+
+        .logo {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--turquoise);
+            margin-bottom: 28px;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .logo-dot {
+            width: 5px;
+            height: 5px;
+            background: var(--turquoise);
+            border-radius: 50%;
         }
 
         #title2 {
-            font-size: 32px;
-            font-weight: 800;
-            margin-bottom: 40px;
-            color: var(--turquoise);
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--white);
+            letter-spacing: -0.8px;
+        }
+
+        .subtitle2 {
+            font-size: 14px;
+            color: var(--steel);
+            font-weight: 300;
+            margin-bottom: 32px;
         }
 
         #form {
             display: flex;
             flex-direction: column;
-            gap: 30px;
+            gap: 20px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .field-label {
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--steel);
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         input {
-            background: transparent;
-            border: none;
-            border-bottom: 2px solid var(--card-border);
-            padding: 12px 0;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 13px 15px;
             color: var(--white);
-            font-family: 'Nunito', sans-serif;
-            font-size: 16px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 15px;
             outline: none;
-            transition: border-color 0.3s ease;
+            transition: all 0.2s ease;
+            width: 100%;
         }
 
         input:focus {
-            border-bottom-color: var(--turquoise);
+            border-color: rgba(16, 185, 129, 0.5);
+            background: rgba(16, 185, 129, 0.03);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.07);
         }
 
         input::placeholder {
-            color: var(--steel);
-            opacity: 0.5;
+            color: rgba(148, 163, 184, 0.35);
+            font-weight: 300;
         }
 
         #btn1 {
-            margin-top: 20px;
-            padding: 18px;
-            border-radius: 20px;
+            margin-top: 4px;
+            padding: 15px;
+            border-radius: 10px;
             border: none;
             background-color: var(--turquoise);
-            color: white;
-            font-family: 'Nunito', sans-serif;
-            font-weight: 700;
-            font-size: 18px;
+            color: #050a15;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 15px;
             cursor: pointer;
-            box-shadow: 0 5px 15px rgba(13, 186, 204, 0.3);
-            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.2);
+            transition: all 0.2s ease;
+            width: 100%;
         }
 
         #btn1:hover {
-            transform: scale(1.02);
+            background: #0ea873;
+            transform: translateY(-1px);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
         }
 
         #btn1:active {
             transform: scale(0.98);
         }
 
-        /* Bottom Login Link */
         #login {
-            margin-top: 30px;
-            font-size: 15px;
+            margin-top: 20px;
+            font-size: 13px;
             color: var(--steel);
+            font-weight: 300;
             text-align: center;
         }
 
         #login a {
-            color: var(--cotton-candy);
+            color: var(--turquoise);
             text-decoration: none;
-            font-weight: 700;
+            font-weight: 500;
         }
 
         #login a:hover {
@@ -160,18 +262,33 @@
 <body>
 <div id="container">
     <div id="info">
+        <div class="info-chip">New Account</div>
         <h3 id="title">Welcome!</h3>
         <p id="sub1">Track shared expenses effortlessly.</p>
         <p id="sub2">Sign in to manage group expenses, split costs fairly, and see who owes whom.</p>
     </div>
 
     <div id="formContainer2">
+        <div class="logo">
+            <div class="logo-dot"></div>
+            FinCheck
+        </div>
         <p id="title2">Sign Up</p>
+        <p class="subtitle2">Fill in your details to get started.</p>
         <div id="formContainer">
             <form id="form">
-                <input type="text" placeholder="Username" id="username">
-                <input type="email" placeholder="Email" id="email">
-                <input type="password" placeholder="Password" id="password">
+                <div class="field">
+                    <label class="field-label">Username</label>
+                    <input type="text" placeholder="choose a username" id="username">
+                </div>
+                <div class="field">
+                    <label class="field-label">Email</label>
+                    <input type="email" placeholder="your@email.com" id="email">
+                </div>
+                <div class="field">
+                    <label class="field-label">Password</label>
+                    <input type="password" placeholder="••••••••" id="password">
+                </div>
                 <button id="btn1" type="button">Get Started</button>
             </form>
         </div>

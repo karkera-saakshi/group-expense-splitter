@@ -4,190 +4,399 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Group Expense Splitter And Settlement Record</title>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-deep: #1A1A2E;
-            --card-bg: #2B2B46;
-            --card-border: #303150;
-            --turquoise: #0DBACC;
-            --lavender: #9F7FE0;
-            --cotton-candy: #F18AB5;
-            --steel: #BDBDCB;
-            --white: #F7F7F8;
+            --bg-deep: #050a15;
+            --card-bg: rgba(255, 255, 255, 0.04);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --turquoise: #10b981;
+            --lavender: #3b82f6;
+            --cotton-candy: #10b981;
+            --steel: #94a3b8;
+            --white: #f8fafc;
         }
 
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            font-family: 'Nunito', sans-serif;
+            font-family: 'Outfit', sans-serif;
             margin: 0;
-            background: radial-gradient(circle at center, #2B2B46 0%, #1A1A2E 100%);
+            background-color: var(--bg-deep);
+            background-image:
+                radial-gradient(ellipse at 15% 15%, rgba(59, 130, 246, 0.07) 0%, transparent 55%),
+                radial-gradient(ellipse at 85% 85%, rgba(16, 185, 129, 0.07) 0%, transparent 55%);
             color: var(--white);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            padding: 100px 20px 40px;
+        }
+
+        /* NAV */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 48px;
+            border-bottom: 1px solid var(--card-border);
+            background: rgba(5, 10, 21, 0.85);
+            backdrop-filter: blur(12px);
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--turquoise);
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .logo-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--turquoise);
+            border-radius: 50%;
+        }
+
+        #logout {
+            background: rgba(239, 68, 68, 0.08);
+            color: var(--steel);
+            font-family: 'Outfit', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            padding: 8px 18px;
+            border-radius: 8px;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: fit-content;
+        }
+
+        #logout:hover {
+            color: #ef4444;
+            border-color: rgba(239, 68, 68, 0.5);
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        /* HERO */
+        .hero {
+            text-align: center;
+            margin-bottom: 52px;
         }
 
         #title {
-            font-size: 50px;
+            font-size: 44px;
             font-weight: 800;
-            margin-bottom: 10px;
-            text-align: center;
+            margin-bottom: 12px;
+            letter-spacing: -1.5px;
+            line-height: 1.1;
         }
 
-        .highlight {
-            color: var(--cotton-candy);
-        }
+        .highlight { color: var(--turquoise); }
 
         #subtitle {
-            font-size: 18px;
+            font-size: 15px;
             color: var(--steel);
-            max-width: 600px;
-            text-align: center;
-            margin-bottom: 50px;
-            opacity: 0.8;
-            line-height: 1.5;
+            max-width: 520px;
+            font-weight: 300;
+            line-height: 1.7;
         }
 
+        /* CARDS */
         #container {
             display: flex;
-            gap: 40px;
+            gap: 24px;
         }
 
-        /* Refined Card Sizing & Base State */
-        #contain1, #contain2 {
-            background: rgba(43, 43, 70, 0.7);
-            backdrop-filter: blur(10px);
+        #contain1, #contain2, #contain3 {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
             border: 1px solid var(--card-border);
-            border-radius: 32px;
-            width: 280px;
-            padding: 40px 30px;
+            border-radius: 24px;
+            width: 260px;
+            padding: 0;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            /* Smooth transition for subtle effect */
+            overflow: hidden;
             transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
-        /* Subtler Hover Effect */
-        #contain1:hover, #contain2:hover {
-            transform: scale(1.02) translateY(-4px); /* Very slight lift and grow */
-            border-color: rgba(13, 186, 204, 0.4);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+        #contain1:hover, #contain2:hover, #contain3:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 24px 48px rgba(0, 0, 0, 0.5);
         }
 
-        #img1, #img2 {
-            height: 220px;
-            width: 220px;
-            border-radius: 24px;
-            margin-bottom: 35px;
-            object-fit: cover;
-            filter: brightness(90%);
-            transition: filter 0.3s ease;
+        #contain1:hover { border-color: rgba(59, 130, 246, 0.4); }
+        #contain2:hover { border-color: rgba(16, 185, 129, 0.4); }
+        #contain3:hover { border-color: rgba(139, 92, 246, 0.4); }
+
+        /* Illustration area */
+        .card-illustration {
+            width: 100%;
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
         }
 
-        #contain1:hover img, #contain2:hover img {
-            filter: brightness(105%);
+        .card-illustration-1 {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(59, 130, 246, 0.05) 100%);
+            border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+        }
+
+        .card-illustration-2 {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(16, 185, 129, 0.05) 100%);
+            border-bottom: 1px solid rgba(16, 185, 129, 0.1);
+        }
+
+        .card-illustration-3 {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(139, 92, 246, 0.05) 100%);
+            border-bottom: 1px solid rgba(139, 92, 246, 0.1);
+        }
+
+        .card-illustration svg {
+            width: 90px;
+            height: 90px;
+            opacity: 0.9;
+            transition: transform 0.3s ease;
+        }
+
+        #contain1:hover .card-illustration svg,
+        #contain2:hover .card-illustration svg,
+        #contain3:hover .card-illustration svg {
+            transform: scale(1.1);
+        }
+
+        /* decorative circles */
+        .card-illustration::before {
+            content: '';
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            opacity: 0.06;
+        }
+
+        .card-illustration-1::before { background: #3b82f6; top: -40px; right: -40px; }
+        .card-illustration-2::before { background: #10b981; bottom: -40px; left: -40px; }
+        .card-illustration-3::before { background: #8b5cf6; top: -40px; left: -40px; }
+
+        .card-body {
+            padding: 24px 26px 26px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-tag {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .tag-blue { color: var(--lavender); }
+        .tag-green { color: var(--turquoise); }
+        .tag-purple { color: #8b5cf6; }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 8px;
+            letter-spacing: -0.3px;
+        }
+
+        .card-desc {
+            font-size: 13px;
+            color: var(--steel);
+            font-weight: 300;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            flex: 1;
         }
 
         button {
             width: 100%;
-            padding: 18px;
-            border-radius: 20px;
+            padding: 13px;
+            border-radius: 10px;
             border: none;
-            font-family: 'Nunito', sans-serif;
-            font-weight: 700;
-            font-size: 16px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 14px;
             cursor: pointer;
-            color: white;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
+            letter-spacing: 0.2px;
         }
 
         #btn1 {
             background-color: var(--lavender);
-            box-shadow: 0 5px 15px rgba(159, 127, 224, 0.2);
+            color: white;
+            box-shadow: 0 6px 16px rgba(59, 130, 246, 0.2);
         }
 
         #btn1:hover {
-            background-color: #B496F0;
-            box-shadow: 0 8px 20px rgba(159, 127, 224, 0.4);
+            background: #2563eb;
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.35);
         }
 
         #btn2 {
             background-color: var(--turquoise);
-            box-shadow: 0 5px 15px rgba(13, 186, 204, 0.2);
+            color: #050a15;
+            box-shadow: 0 6px 16px rgba(16, 185, 129, 0.2);
         }
 
         #btn2:hover {
-            background-color: #12D3E6;
-            box-shadow: 0 8px 20px rgba(13, 186, 204, 0.4);
+            background: #0ea873;
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
         }
 
-        button:active {
-            transform: scale(0.97);
+        #btn3 {
+            background-color: #8b5cf6;
+            color: white;
+            box-shadow: 0 6px 16px rgba(139, 92, 246, 0.2);
         }
 
-        @media (max-width: 700px) {
-            #container { flex-direction: column; gap: 20px; }
-            #title { font-size: 36px; }
+        #btn3:hover {
+            background: #7c3aed;
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(139, 92, 246, 0.35);
         }
 
-        #logout {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background-color: rgba(255, 0, 0, 0.582);
-            color: var(--steel);
-            font-size: 13px;
-            padding: 5px 10px;
-            border-radius: 8px;
-            border: 1px solid var(--card-border);
-            width: fit-content;
-            white-space: nowrap;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-        #logout:hover {
-            color: var(--white);
-            border-color: var(--card-border);
-            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+        button:active { transform: scale(0.97); }
+
+        @media (max-width: 860px) {
+            #container { flex-direction: column; gap: 16px; }
+            #title { font-size: 32px; }
+            nav { padding: 16px 20px; }
         }
     </style>
 </head>
 <body>
 
-<h2 id="title">Track expenses. Split costs. <span class="highlight">Stay clear.</span></h2>
-<p id="subtitle">Whether it’s trips, outings, or shared living costs, this tool simplifies group expense tracking and settlements.</p>
-<button onclick="logout()" id="logout">Logout</button>
+<nav>
+    <div class="logo">
+        <div class="logo-dot"></div>
+        FinCheck
+    </div>
+    <button onclick="logout()" id="logout">Logout</button>
+</nav>
+
+<div class="hero">
+    <h2 id="title">Track expenses. Split costs. <span class="highlight">Stay clear.</span></h2>
+</div>
+
 <div id="container">
+
+    <!-- Card 1 - Group Expense -->
     <div id="contain1">
-        <img src="img1.jpg" alt="Splitter" id="img1">
-        <button id="btn1" onclick="expenseSplitterPage()">Group Expense Splitter</button>
+        <div class="card-illustration card-illustration-1">
+            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- People icons -->
+                <circle cx="30" cy="32" r="12" fill="#3b82f6" opacity="0.8"/>
+                <path d="M10 65 Q10 50 30 50 Q50 50 50 65" fill="#3b82f6" opacity="0.8"/>
+                <circle cx="70" cy="32" r="12" fill="#3b82f6" opacity="0.5"/>
+                <path d="M50 65 Q50 50 70 50 Q90 50 90 65" fill="#3b82f6" opacity="0.5"/>
+                <!-- Bill -->
+                <rect x="38" y="60" width="24" height="30" rx="3" fill="#f8fafc" opacity="0.15"/>
+                <line x1="42" y1="67" x2="58" y2="67" stroke="#3b82f6" stroke-width="2" opacity="0.8"/>
+                <line x1="42" y1="73" x2="58" y2="73" stroke="#3b82f6" stroke-width="2" opacity="0.6"/>
+                <line x1="42" y1="79" x2="52" y2="79" stroke="#3b82f6" stroke-width="2" opacity="0.4"/>
+            </svg>
+        </div>
+        <div class="card-body">
+            <div class="card-tag tag-blue">Split Bills</div>
+            <div class="card-title">Group Expense Splitter</div>
+            <div class="card-desc">Split costs fairly by percentage. Calculate who pays what instantly.</div>
+            <button id="btn1" onclick="expenseSplitterPage()">Group Expense Splitter</button>
+        </div>
     </div>
 
+    <!-- Card 2 - Who Owes Whom -->
     <div id="contain2">
-        <img src="img2.jpg" alt="Debts" id="img2">
-        <button id="btn2" onclick="ownsPage()">Who Owes Whom</button>
+        <div class="card-illustration card-illustration-2">
+            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Two people with arrow between -->
+                <circle cx="22" cy="30" r="11" fill="#10b981" opacity="0.8"/>
+                <path d="M5 60 Q5 47 22 47 Q39 47 39 60" fill="#10b981" opacity="0.8"/>
+                <circle cx="78" cy="30" r="11" fill="#10b981" opacity="0.5"/>
+                <path d="M61 60 Q61 47 78 47 Q95 47 95 60" fill="#10b981" opacity="0.5"/>
+                <!-- Arrow both ways -->
+                <line x1="42" y1="50" x2="58" y2="50" stroke="#10b981" stroke-width="2.5"/>
+                <polyline points="54,45 59,50 54,55" stroke="#10b981" stroke-width="2.5" fill="none"/>
+                <polyline points="46,45 41,50 46,55" stroke="#10b981" stroke-width="2.5" fill="none"/>
+                <!-- Rupee -->
+                <text x="46" y="38" fill="#10b981" font-size="10" opacity="0.9" font-weight="bold">₹</text>
+            </svg>
+        </div>
+        <div class="card-body">
+            <div class="card-tag tag-green">Track Debts</div>
+            <div class="card-title">Who Owes Whom</div>
+            <div class="card-desc">Track debts with automated email reminders before and after due dates.</div>
+            <button id="btn2" onclick="ownsPage()">Who Owes Whom</button>
+        </div>
     </div>
+
+    <!-- Card 3 - Analytics -->
+    <div id="contain3">
+        <div class="card-illustration card-illustration-3">
+            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Bar chart -->
+                <rect x="12" y="55" width="14" height="30" rx="3" fill="#8b5cf6" opacity="0.5"/>
+                <rect x="30" y="40" width="14" height="45" rx="3" fill="#8b5cf6" opacity="0.7"/>
+                <rect x="48" y="25" width="14" height="60" rx="3" fill="#8b5cf6" opacity="0.9"/>
+                <rect x="66" y="35" width="14" height="50" rx="3" fill="#8b5cf6" opacity="0.7"/>
+                <!-- Trend line -->
+                <polyline points="19,52 37,37 55,22 73,32" stroke="#c4b5fd" stroke-width="2" fill="none" stroke-dasharray="4 2"/>
+                <!-- Dots on line -->
+                <circle cx="19" cy="52" r="3" fill="#c4b5fd"/>
+                <circle cx="55" cy="22" r="3" fill="#c4b5fd"/>
+                <circle cx="73" cy="32" r="3" fill="#c4b5fd"/>
+            </svg>
+        </div>
+        <div class="card-body">
+            <div class="card-tag tag-purple">Insights</div>
+            <div class="card-title">View Analytics</div>
+            <div class="card-desc">See your monthly cashflow — money received vs paid — in a visual chart.</div>
+            <button id="btn3" onclick="window.location.href='chart.html'">View Analytics</button>
+        </div>
+    </div>
+
 </div>
 
 <script>
-    // Check if user is logged in
+    const userId = localStorage.getItem("userId");
     const token = localStorage.getItem("token");
-    if (!token) {
+    if (!token || !userId) {
         window.location.href = "login.html";
     }
-    function expenseSplitterPage(){
-    window.location.href = 'groupExpenseSplitter.html';
+
+    function expenseSplitterPage() {
+        window.location.href = 'groupExpenseSplitter.html';
     }
-    function ownsPage(){
-      window.location.href = 'owns.html';
+
+    function ownsPage() {
+        window.location.href = 'owns.html';
     }
+
     function logout() {
-    localStorage.clear();
-    window.location.href = "login.html";
+        localStorage.clear();
+        window.location.href = "login.html";
     }
 </script>
 </body>

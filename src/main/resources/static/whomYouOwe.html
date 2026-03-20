@@ -4,27 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Whom You Owe</title>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-deep: #1A1A2E;
-            --card-bg: rgba(43, 43, 70, 0.7);
-            --card-border: #303150;
-            --lavender: #9F7FE0;
-            --steel: #BDBDCB;
-            --white: #F7F7F8;
+            --bg-deep: #050a15;
+            --card-bg: rgba(255, 255, 255, 0.04);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --lavender: #3b82f6;
+            --steel: #94a3b8;
+            --white: #f8fafc;
+            --turquoise: #10b981;
         }
 
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            font-family: 'Nunito', sans-serif;
+            font-family: 'Outfit', sans-serif;
             margin: 0;
-            background: radial-gradient(circle at center, #2B2B46 0%, #1A1A2E 100%);
+            background-color: var(--bg-deep);
+            background-image:
+                radial-gradient(ellipse at 10% 10%, rgba(59, 130, 246, 0.07) 0%, transparent 50%),
+                radial-gradient(ellipse at 90% 90%, rgba(16, 185, 129, 0.07) 0%, transparent 50%);
             color: var(--white);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            box-sizing: border-box;
         }
 
         .container {
@@ -32,88 +37,97 @@
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border: 1px solid var(--card-border);
-            border-radius: 32px;
-            padding: 50px 40px;
+            border-radius: 24px;
+            padding: 48px 40px;
             width: 100%;
-            max-width: 400px;
+            max-width: 380px;
             text-align: center;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.4);
         }
 
         .header {
-            margin-bottom: 35px;
+            margin-bottom: 32px;
         }
 
         .category-label {
             color: var(--lavender);
             text-transform: uppercase;
-            font-size: 12px;
+            font-size: 11px;
             letter-spacing: 2px;
-            font-weight: 800;
-            margin-bottom: 8px;
+            font-weight: 600;
+            margin-bottom: 10px;
             display: block;
         }
 
         h2 {
             margin: 0;
-            font-size: 28px;
-            font-weight: 800;
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: var(--white);
+        }
+
+        .divider {
+            height: 1px;
+            background: var(--card-border);
+            margin-bottom: 28px;
         }
 
         .button-stack {
             display: flex;
             flex-direction: column;
-            gap: 18px;
+            gap: 14px;
         }
 
         button {
             width: 100%;
-            padding: 18px;
-            border-radius: 18px;
+            padding: 15px;
+            border-radius: 10px;
             border: none;
-            font-family: 'Nunito', sans-serif;
-            font-weight: 700;
-            font-size: 16px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 15px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            transition: all 0.2s ease;
+            letter-spacing: 0.2px;
         }
 
         .btn-primary {
             background-color: var(--lavender);
             color: white;
-            box-shadow: 0 5px 15px rgba(159, 127, 224, 0.3);
+            box-shadow: 0 6px 16px rgba(59, 130, 246, 0.2);
         }
 
         .btn-primary:hover {
-            background-color: #B496F0;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(159, 127, 224, 0.4);
+            background: #2563eb;
+            transform: translateY(-1px);
+            box-shadow: 0 10px 24px rgba(59, 130, 246, 0.35);
         }
 
         .btn-secondary {
             background-color: transparent;
-            color: var(--white);
-            border: 2px solid var(--card-border);
+            color: var(--steel);
+            border: 1px solid var(--card-border);
         }
 
         .btn-secondary:hover {
-            background-color: rgba(255, 255, 255, 0.05);
-            border-color: var(--steel);
+            background-color: rgba(255, 255, 255, 0.04);
+            border-color: rgba(255, 255, 255, 0.2);
+            color: var(--white);
         }
 
         .back-link {
-            margin-top: 25px;
+            margin-top: 24px;
             display: inline-block;
             color: var(--steel);
             text-decoration: none;
-            font-size: 14px;
-            transition: color 0.3s;
+            font-size: 15px;
+            font-weight: 400;
+            transition: color 0.2s;
         }
 
         .back-link:hover {
-            color: var(--white);
+            color: var(--turquoise);
         }
 
         button:active {
@@ -126,8 +140,10 @@
 <div class="container">
     <div class="header">
         <span class="category-label">Debts</span>
-        <h2>Whom You Owe</h2>
+        <h2>To pay</h2>
     </div>
+
+    <div class="divider"></div>
 
     <div class="button-stack">
         <button class="btn-primary" onclick="btnPrimary()">Enter Details</button>
@@ -136,13 +152,18 @@
 
     <a href="owns.html" class="back-link">← Back to Dashboard</a>
 </div>
+
 <script>
-    function btnPrimary()
-    {
+    const userId = localStorage.getItem("userId");
+    const token = localStorage.getItem("token");
+    if (!token || !userId) {
+        window.location.href = "login.html";
+    }
+
+    function btnPrimary() {
         window.open('details.html', '_blank');
     }
-    function btnSecondary()
-    {
+    function btnSecondary() {
         window.open('history1.html', '_blank');
     }
 </script>

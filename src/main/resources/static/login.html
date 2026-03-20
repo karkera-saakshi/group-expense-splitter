@@ -4,176 +4,217 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login </title>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-deep: #1A1A2E;
-            --card-bg: #2B2B46;
-            --card-border: #303150;
-            --turquoise: #0DBACC;
-            --lavender: #9F7FE0;
-            --cotton-candy: #F18AB5;
-            --steel: #BDBDCB;
-            --white: #F7F7F8;
+            --bg-deep: #050a15;
+            --card-bg: rgba(255, 255, 255, 0.04);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --turquoise: #10b981;
+            --lavender: #3b82f6;
+            --cotton-candy: #10b981;
+            --steel: #94a3b8;
+            --white: #f8fafc;
         }
 
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            font-family: 'Nunito', sans-serif;
-            margin: 0;
-            background: radial-gradient(circle at center, #2B2B46 0%, #1A1A2E 100%);
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-deep);
+            background-image:
+                radial-gradient(ellipse at 20% 50%, rgba(59, 130, 246, 0.06) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, rgba(16, 185, 129, 0.05) 0%, transparent 50%);
             color: var(--white);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
         }
 
-        #container {
-            display: flex;
-            width: 1000px;
-            height: 600px;
+        .login-box {
+            width: 420px;
+            padding: 52px 48px;
             background: var(--card-bg);
-            backdrop-filter: blur(15px);
             border: 1px solid var(--card-border);
-            border-radius: 40px;
-            overflow: hidden;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+            border-radius: 24px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.4);
         }
 
-        #formSide {
-            flex: 1.2;
-            padding: 60px 80px;
+        .logo {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--turquoise);
+            letter-spacing: -0.3px;
+            margin-bottom: 40px;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
-            z-index: 1;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--turquoise);
+            border-radius: 50%;
         }
 
         #formSide h1 {
-            font-size: 48px;
-            font-weight: 800;
-            margin: 0 0 10px 0;
+            font-size: 30px;
+            font-weight: 700;
             color: var(--white);
+            letter-spacing: -0.8px;
+            margin-bottom: 6px;
         }
 
         #formSide .instruction {
+            font-size: 14px;
             color: var(--steel);
-            font-size: 16px;
+            font-weight: 300;
             margin-bottom: 40px;
-            opacity: 0.8;
         }
 
         #loginForm {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 18px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .field-label {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--steel);
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         input {
             background: rgba(255, 255, 255, 0.03);
-            border: none;
-            border-bottom: 1px solid var(--card-border);
-            padding: 15px 10px;
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 14px 16px;
             color: var(--white);
-            font-family: 'Nunito', sans-serif;
-            font-size: 16px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 15px;
+            font-weight: 400;
             outline: none;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
+            width: 100%;
         }
 
         input:focus {
-            background: rgba(255, 255, 255, 0.05);
-            border-bottom-color: var(--turquoise);
+            border-color: rgba(16, 185, 129, 0.5);
+            background: rgba(16, 185, 129, 0.03);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.07);
         }
 
         input::placeholder {
-            color: var(--steel);
-            opacity: 0.5;
+            color: rgba(148, 163, 184, 0.35);
+            font-weight: 300;
         }
 
         #btn1 {
-            margin-top: 20px;
-            padding: 18px;
-            border-radius: 15px;
+            margin-top: 8px;
+            padding: 15px;
+            border-radius: 10px;
             border: none;
-            /* Gradient button from screenshot theme */
-            background: linear-gradient(90deg, var(--lavender) 0%, var(--cotton-candy) 100%);
-            color: white;
-            font-family: 'Nunito', sans-serif;
-            font-weight: 800;
-            font-size: 18px;
+            background: var(--turquoise);
+            color: #050a15;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 15px;
             cursor: pointer;
-            box-shadow: 0 10px 20px rgba(159, 127, 224, 0.2);
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
+            letter-spacing: 0.2px;
         }
 
         #btn1:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 25px rgba(241, 138, 181, 0.3);
+            background: #0ea873;
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.25);
+        }
+
+        #btn1:active {
+            transform: translateY(0);
         }
 
         #footerLink {
-            margin-top: 30px;
-            font-size: 14px;
+            margin-top: 24px;
+            font-size: 13px;
             color: var(--steel);
+            font-weight: 300;
+            text-align: center;
         }
 
         #footerLink a {
             color: var(--turquoise);
             text-decoration: none;
-            font-weight: 700;
+            font-weight: 500;
         }
 
-        #infoSide {
-            flex: 1;
-            background: var(--turquoise);
+        #footerLink a:hover {
+            text-decoration: underline;
+        }
+
+        .divider {
+            height: 1px;
+            background: var(--card-border);
+            margin: 28px 0;
+        }
+
+        .security-note {
             display: flex;
-            flex-direction: column;
-            justify-content: center;
             align-items: center;
-            text-align: center;
-            padding: 40px;
-            clip-path: polygon(15% 0%, 100% 0%, 100% 100%, 0% 100%);
+            gap: 8px;
+            font-size: 12px;
+            color: rgba(148, 163, 184, 0.5);
+            font-weight: 300;
         }
 
-        #infoSide h2 {
-            font-size: 45px;
-            font-weight: 800;
-            color: var(--white);
-            margin-bottom: 20px;
-            line-height: 1.1;
-        }
-
-        #infoSide p {
-            font-size: 18px;
-            color: rgba(255, 255, 255, 0.9);
-            max-width: 300px;
-            line-height: 1.5;
+        .security-note::before {
+            content: '🔒';
+            font-size: 11px;
         }
     </style>
 </head>
 <body>
 
-<div id="container">
+<div class="login-box">
     <div id="formSide">
+        <div class="logo">
+            <div class="logo-dot"></div>
+            FinCheck
+        </div>
+
         <h1>Login</h1>
         <p class="instruction">Please enter your credentials.</p>
 
         <form id="loginForm">
-            <input type="text" id="username" placeholder="Username" required>
-            <input type="password"  id="password" placeholder="Password" required>
+            <div class="field">
+                <label class="field-label">Username</label>
+                <input type="text" id="username" placeholder="your username" required>
+            </div>
+            <div class="field">
+                <label class="field-label">Password</label>
+                <input type="password" id="password" placeholder="••••••••" required>
+            </div>
             <button type="submit" id="btn1">Log In</button>
         </form>
+
+        <div class="divider"></div>
+
+        <div class="security-note">Secured with JWT authentication</div>
 
         <p id="footerLink">
             New user? <a href="signup.html">Create an account</a>
         </p>
-    </div>
-
-    <div id="infoSide">
-        <h2>Welcome Back!</h2>
-        <p>Connect with us and manage your group expense and personal settlement.</p>
     </div>
 </div>
 
@@ -181,7 +222,7 @@
     document.getElementById("loginForm").addEventListener("submit", async function (event) {
     event.preventDefault();
 
-    const loginData = {   // renamed from user
+    const loginData = {
         username: document.getElementById("username").value,
         password: document.getElementById("password").value
     };
@@ -213,10 +254,7 @@
         alert("Something went wrong");
     }
 });
-
 </script>
-
-
 
 </body>
 </html>

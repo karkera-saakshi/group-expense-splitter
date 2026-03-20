@@ -4,110 +4,127 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Group Expense Splitter</title>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-deep: #1A1A2E;
-            --card-bg: #2B2B46;
-            --card-border: #303150;
-            --turquoise: #0DBACC;
-            --lavender: #9F7FE0;
-            --cotton-candy: #F18AB5;
-            --steel: #BDBDCB;
-            --white: #F7F7F8;
+            --bg-deep: #050a15;
+            --card-bg: rgba(255, 255, 255, 0.04);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --turquoise: #10b981;
+            --lavender: #3b82f6;
+            --cotton-candy: #10b981;
+            --steel: #94a3b8;
+            --white: #f8fafc;
         }
 
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            font-family: 'Nunito', sans-serif;
+            font-family: 'Outfit', sans-serif;
             margin: 0;
-            background: radial-gradient(circle at center, #2B2B46 0%, #1A1A2E 100%);
+            background-color: var(--bg-deep);
+            background-image:
+                radial-gradient(ellipse at 10% 10%, rgba(59, 130, 246, 0.07) 0%, transparent 50%),
+                radial-gradient(ellipse at 90% 90%, rgba(16, 185, 129, 0.07) 0%, transparent 50%);
             color: var(--white);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            padding: 40px 20px;
         }
 
         #title {
-            font-size: 50px;
+            font-size: 46px;
             font-weight: 800;
             margin-bottom: 10px;
             text-align: center;
+            letter-spacing: -1.5px;
         }
 
         .highlight {
-            color: var(--cotton-candy);
+            color: var(--turquoise);
         }
 
         #subtitle {
-            font-size: 18px;
+            font-size: 15px;
             color: var(--steel);
-            max-width: 600px;
+            max-width: 500px;
             text-align: center;
             margin-bottom: 40px;
-            opacity: 0.8;
-            line-height: 1.5;
+            font-weight: 300;
+            line-height: 1.7;
         }
 
         #contain1 {
-            background: rgba(43, 43, 70, 0.7);
-            backdrop-filter: blur(10px);
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
             border: 1px solid var(--card-border);
-            border-radius: 32px;
-            width: 350px;
-            padding: 40px 30px;
+            border-radius: 24px;
+            width: 380px;
+            padding: 40px 36px;
             display: flex;
             flex-direction: column;
-            gap: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            gap: 16px;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.4);
         }
 
         input {
-            background: rgba(26, 26, 46, 0.8);
+            background: rgba(255, 255, 255, 0.03);
             border: 1px solid var(--card-border);
-            border-radius: 12px;
-            padding: 14px;
-            color: white;
-            font-family: 'Nunito', sans-serif;
+            border-radius: 10px;
+            padding: 13px 15px;
+            color: var(--white);
+            font-family: 'Outfit', sans-serif;
             font-size: 15px;
+            font-weight: 400;
             outline: none;
-            transition: border-color 0.2s;
+            transition: all 0.2s ease;
+            width: 100%;
         }
 
         input:focus {
-            border-color: var(--turquoise);
+            border-color: rgba(16, 185, 129, 0.5);
+            background: rgba(16, 185, 129, 0.03);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.07);
+        }
+
+        input::placeholder {
+            color: rgba(148, 163, 184, 0.35);
+            font-weight: 300;
         }
 
         #peopleInputs {
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            max-height: 300px;
+            gap: 10px;
+            max-height: 280px;
             overflow-y: auto;
-            padding-right: 5px;
+            padding-right: 4px;
         }
 
         #peopleInputs::-webkit-scrollbar {
-            width: 5px;
+            width: 4px;
         }
+
         #peopleInputs::-webkit-scrollbar-thumb {
-            background: var(--card-border);
+            background: rgba(255,255,255,0.1);
             border-radius: 10px;
         }
 
         button {
             width: 100%;
-            padding: 18px;
-            border-radius: 20px;
+            padding: 15px;
+            border-radius: 10px;
             border: none;
-            font-family: 'Nunito', sans-serif;
-            font-weight: 700;
-            font-size: 16px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 15px;
             cursor: pointer;
             color: white;
-            transition: transform 0.1s;
+            transition: all 0.2s ease;
+            letter-spacing: 0.2px;
         }
 
         button:active {
@@ -116,26 +133,71 @@
 
         #btn1 {
             background-color: var(--lavender);
+            color: white;
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.2);
+        }
+
+        #btn1:hover {
+            background: #2563eb;
+            transform: translateY(-1px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
         }
 
         #btn2 {
             background-color: var(--turquoise);
+            color: #050a15;
             display: none;
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.2);
+        }
+
+        #btn2:hover {
+            background: #0ea873;
+            transform: translateY(-1px);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
         }
 
         #result {
-            margin-top: 10px;
-            text-align: center;
-            font-weight: 700;
-            font-size: 18px;
+            margin-top: 4px;
         }
 
         .res-row {
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding: 12px 14px;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--card-border);
             color: var(--steel);
+            font-size: 14px;
+            font-weight: 400;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
+        .res-row strong {
+            color: var(--white);
+            font-weight: 600;
+        }
+
+        .divider {
+            height: 1px;
+            background: var(--card-border);
+            margin: 4px 0;
+        }
+
+        .back-link {
+            margin-top: 24px;
+            display: inline-block;
+            color: var(--steel);
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 400;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: #8b5cf6;
+        }
     </style>
 </head>
 <body>
@@ -149,48 +211,52 @@
 
     <button onclick="generateInputs()" id="btn1">Generate Names</button>
 
-    <div id="peopleInputs" ></div>
+    <div id="peopleInputs"></div>
     <div id="peoplePercent"></div>
 
     <button onclick="calculate()" id="btn2">Calculate</button>
 
     <div id="result"></div>
 </div>
+<a href="option.html" class="back-link">← Back to Option</a>
 
 <script>
-    let totalPercent=0;
-    function generateInputs()
-    {
+    const userId = localStorage.getItem("userId");
+    const token = localStorage.getItem("token");
+    if (!token || !userId) {
+        window.location.href = "login.html";
+    }
+    let totalPercent = 0;
+    function generateInputs() {
         const peopleCount = parseFloat(document.getElementById("peopleCount").value);
         const totalAmount = parseFloat(document.getElementById("totalAmount").value);
         const peopleInput = document.getElementById("peopleInputs");
         const peoplePercent = document.getElementById("peoplePercent");
         peopleInput.innerHTML = "";
-        for(let i=0;i<peopleCount;i++)
-        {
+        for (let i = 0; i < peopleCount; i++) {
             peopleInput.innerHTML += `
             <input type="text" placeholder="Name" class="nameInput">
             <input type="number" placeholder="Percentage" class="percentage">
-            `
+            `;
         }
         document.getElementById("btn2").style.display = "block";
     }
-    function calculate(){
+
+    function calculate() {
         const totalAmount = parseFloat(document.getElementById("totalAmount").value);
         const people = [];
         const peopleInput = document.getElementsByClassName("nameInput");
         const percentage = document.getElementsByClassName("percentage");
-        for(let i=0;i< peopleInput.length;i++)
-        {
-           people.push({
-           name : peopleInput[i].value,
-           percentage: parseFloat(percentage[i].value)
-           });
+        for (let i = 0; i < peopleInput.length; i++) {
+            people.push({
+                name: peopleInput[i].value,
+                percentage: parseFloat(percentage[i].value)
+            });
         }
-        fetch("http://localhost:8081/calculate",{
+        fetch("http://localhost:8081/calculate", {
             method: "POST",
-            headers:{
-                "Content-Type": "application/json"
+            headers: {
+                "Content-Type": "application/json",
                 "Authorization": 'Bearer ' + localStorage.getItem("token")
             },
             body: JSON.stringify({
@@ -200,51 +266,41 @@
         })
         .then(response => {
             if (!response.ok) {
-                return response.text().then(text => {
-                    throw new Error(text);
-                });
+                return response.text().then(text => { throw new Error(text); });
             }
             return response.json();
         })
-
-
-        .then(data=>{
+        .then(data => {
             const result = document.getElementById("result");
-            result.innerHTML ="";
+            result.innerHTML = "<div class='divider'></div>";
             for (const name in data) {
                 result.innerHTML += `
                     <div class="res-row">
-                        ${name} pays ₹${data[name].toFixed(2)}
+                        <span>${name}</span>
+                        <strong>₹${data[name].toFixed(2)}</strong>
                     </div>
                 `;
             }
-            for (let i = 0; i < percentage.length; i++)
-            {
-                if (percentage[i].value === "")
-                {
+            for (let i = 0; i < percentage.length; i++) {
+                if (percentage[i].value === "") {
                     alert("Mention percentage of each person");
                     return;
                 }
             }
-            for (let i = 0; i < percentage.length; i++)
-            {
-                totalPercent+=percentage[i];
+            for (let i = 0; i < percentage.length; i++) {
+                totalPercent += percentage[i];
             }
-            if(totalPercent>100)
-            {
-            alert("Percentage should be equal to 100");
+            if (totalPercent > 100) {
+                alert("Percentage should be equal to 100");
             }
         })
-        .catch(error=>{
-            console.error("Error: "+error);
-            if(totalAmount!=100)
-            {
-            alert("The total pecentage should reach 100");
+        .catch(error => {
+            console.error("Error: " + error);
+            if (totalAmount != 100) {
+                alert("The total percentage should reach 100");
             }
-            for (let i = 0; i < percentage.length; i++)
-            {
-                if (percentage[i].value === "")
-                {
+            for (let i = 0; i < percentage.length; i++) {
+                if (percentage[i].value === "") {
                     alert("Mention percentage of each person");
                     return;
                 }

@@ -4,89 +4,336 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Expense Analysis</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg-deep: #050a15;
+            --card-bg: rgba(255, 255, 255, 0.04);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --turquoise: #10b981;
+            --lavender: #3b82f6;
+            --steel: #94a3b8;
+            --white: #f8fafc;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            margin: 0;
-            padding: 40px;
-            background: #1A1A2E;
-            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-deep);
+            background-image:
+                radial-gradient(ellipse at 10% 10%, rgba(59, 130, 246, 0.07) 0%, transparent 50%),
+                radial-gradient(ellipse at 90% 90%, rgba(16, 185, 129, 0.07) 0%, transparent 50%);
+            color: var(--white);
             min-height: 100vh;
             display: flex;
-            justify-content: center;
-            align-items: center;
+            flex-direction: column;
         }
-        .chart-container {
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 48px;
+            border-bottom: 1px solid var(--card-border);
+            background: rgba(5, 10, 21, 0.85);
+            backdrop-filter: blur(12px);
+        }
+
+        .logo {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--turquoise);
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            text-decoration: none;
+        }
+
+        .logo-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--turquoise);
+            border-radius: 50%;
+        }
+
+        .back-btn {
+            background: var(--card-bg);
+            color: var(--steel);
+            font-family: 'Outfit', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            padding: 8px 18px;
+            border-radius: 8px;
+            border: 1px solid var(--card-border);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .back-btn:hover {
+            border-color: rgba(16, 185, 129, 0.4);
+            color: var(--turquoise);
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        .main {
+            flex: 1;
+            padding: 48px;
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+            max-width: 1100px;
             width: 100%;
-            height: 500px;
-            background: rgba(43, 43, 70, 0.7);
+            margin: 0 auto;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            color: var(--white);
+        }
+
+        .page-title span { color: var(--turquoise); }
+
+        .page-subtitle {
+            font-size: 14px;
+            color: var(--steel);
+            font-weight: 300;
+            margin-top: 6px;
+        }
+
+        .activity-badge {
+            font-size: 12px;
+            color: var(--turquoise);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .activity-badge::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--turquoise);
+            border-radius: 50%;
+            animation: blink 2s ease-in-out infinite;
+        }
+
+
+        .stat-label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--steel);
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .stat-green { color: #10b981; border-left: 3px solid #10b981; }
+        .stat-red { color: #ef4444; border-left: 3px solid #ef4444; }
+        .stat-blue { color: #3b82f6; border-left: 3px solid #3b82f6; }
+
+        .chart-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
             border-radius: 20px;
-            padding: 30px;
-            box-sizing: border-box;
+            padding: 32px;
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .chart-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--white);
+        }
+
+        .chart-subtitle {
+            font-size: 12px;
+            color: var(--steel);
+            font-weight: 300;
+            margin-top: 3px;
+        }
+
+        .legend {
+            display: flex;
+            gap: 20px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 12px;
+            color: var(--steel);
+            font-weight: 400;
+        }
+
+        .legend-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 2px;
+        }
+
+        .dot-green { background: #10b981; }
+        .dot-red { background: #ef4444; }
+
+        .chart-wrap {
+            height: 380px;
+            position: relative;
+        }
+
+        #expenseChart {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        .back-link {
+            margin-top: 24px;
+            display: inline-block;
+            color: var(--steel);
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 400;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: #8b5cf6;
         }
     </style>
 </head>
 <body>
-<canvas id="expenseChart" class="chart-container"></canvas>
+
+<nav>
+    <div class="logo">
+        <div class="logo-dot"></div>
+        FinCheck
+    </div>
+    <a href="option.html" class="back-btn">← Back to Dashboard</a>
+</nav>
+
+<div class="main">
+
+    <div class="page-header">
+        <div>
+            <div class="page-title">Expense <span>Analytics</span></div>
+            <div class="page-subtitle">Monthly cashflow overview for the current year</div>
+        </div>
+    </div>
+
+    <div class="chart-card">
+        <div class="chart-header">
+            <div>
+                <div class="chart-title">Monthly Cashflow</div>
+                <div class="chart-subtitle">Received vs Paid across all months</div>
+            </div>
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-dot dot-green"></div>
+                    Received
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot dot-red"></div>
+                    Paid
+                </div>
+            </div>
+        </div>
+        <div class="chart-wrap">
+            <canvas id="expenseChart"></canvas>
+        </div>
+    </div>
+
+
+    <a href="option.html" class="back-link">← Back to Option</a>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    async function loadData()
-    {
+    async function loadData() {
         const userId = localStorage.getItem("userId");
-        const token = localStorage.getItem("token");
-        const response = await fetch(`http://localhost:8081/histories/${userId}`,{
-            headers: {"Authorization": "Bearer "+token }
+    const token = localStorage.getItem("token");
+    if (!token || !userId) {
+        window.location.href = "login.html";
+    }
+
+        const response = await fetch(`http://localhost:8081/histories/${userId}`, {
+            headers: { "Authorization": "Bearer " + token }
         });
         const data = await response.json();
-        console.log(data);
-        const monthlyData = {};
-    data.forEach(item => {
-        const month = new Date(item.createdAt).toLocaleString( 'default' , {month: 'short'});
-        if(!monthlyData[month])
-        {
-            monthlyData[month] = {received: 0, paid: 0};
-        }
 
-        if(item.direction === "OWNS_ME")
-        {
-               monthlyData[month].received += item.amount
-        }
-        else
-        {
-                monthlyData[month].paid += item.amount
-        }
-    })
-    const allMonths = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-    allMonths.forEach(month => {
-        if (!monthlyData[month]) {
-            monthlyData[month] = { received: 0, paid: 0 };
-        }
-    });
-    console.log(monthlyData);
-    const labels = allMonths;
-    const received = labels.map(m=>monthlyData[m].received);
-    const paid = labels.map(m=>monthlyData[m].paid);
-    console.log(labels);
-    console.log(received);
-    console.log(paid);
-    const chart = document.getElementById("expenseChart").getContext('2d');
-    new Chart(chart,{
-        type:'bar',
-        data:{
-            labels : labels,
-            datasets: [
-                {
-                    label: 'Received',
-                    data: received,
-                    backgroundColor: 'green'
-                },
-                {
-                    label: 'Paid',
-                    data: paid,
-                    backgroundColor: 'red'
-                }
-            ]
-        },
-        options: {
+        const monthlyData = {};
+        data.forEach(item => {
+            const month = new Date(item.createdAt).toLocaleString('default', { month: 'short' });
+            if (!monthlyData[month]) {
+                monthlyData[month] = { received: 0, paid: 0 };
+            }
+            if (item.direction === "OWNS_ME") {
+                monthlyData[month].received += item.amount;
+            } else {
+                monthlyData[month].paid += item.amount;
+            }
+        });
+
+        const allMonths = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        allMonths.forEach(month => {
+            if (!monthlyData[month]) {
+                monthlyData[month] = { received: 0, paid: 0 };
+            }
+        });
+
+        const labels = allMonths;
+        const received = labels.map(m => monthlyData[m].received);
+        const paid = labels.map(m => monthlyData[m].paid);
+
+        const chart = document.getElementById("expenseChart").getContext('2d');
+        new Chart(chart, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Received',
+                        data: received,
+                        backgroundColor: 'rgba(16, 185, 129, 0.7)',
+                        borderColor: '#10b981',
+                        borderWidth: 1,
+                        borderRadius: 6,
+                    },
+                    {
+                        label: 'Paid',
+                        data: paid,
+                        backgroundColor: 'rgba(239, 68, 68, 0.7)',
+                        borderColor: '#ef4444',
+                        borderWidth: 1,
+                        borderRadius: 6,
+                    }
+                ]
+            },
+            options: {
             responsive: true,
             maintainAspectRatio: false,
             scales: {
@@ -95,8 +342,9 @@
                 }
             }
         }
-    });
-   }
+        });
+    }
+
     loadData();
 </script>
 </body>

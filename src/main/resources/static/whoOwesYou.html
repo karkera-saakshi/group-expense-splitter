@@ -4,28 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Whom You Owe</title>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-deep: #1A1A2E;
-            --card-bg: rgba(43, 43, 70, 0.7);
-            --card-border: #303150;
-            --turquoise: #0DBACC; /* The blue from previous pages */
-            --cotton-candy: #F18AB5; /* Pink accent for labels */
-            --steel: #BDBDCB;
-            --white: #F7F7F8;
+            --bg-deep: #050a15;
+            --card-bg: rgba(255, 255, 255, 0.04);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --turquoise: #10b981;
+            --cotton-candy: #10b981;
+            --steel: #94a3b8;
+            --white: #f8fafc;
         }
 
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            font-family: 'Nunito', sans-serif;
+            font-family: 'Outfit', sans-serif;
             margin: 0;
-            background: radial-gradient(circle at center, #2B2B46 0%, #1A1A2E 100%);
+            background-color: var(--bg-deep);
+            background-image:
+                radial-gradient(ellipse at 10% 10%, rgba(59, 130, 246, 0.07) 0%, transparent 50%),
+                radial-gradient(ellipse at 90% 90%, rgba(16, 185, 129, 0.07) 0%, transparent 50%);
             color: var(--white);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            box-sizing: border-box;
         }
 
         .container {
@@ -33,97 +37,97 @@
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border: 1px solid var(--card-border);
-            border-radius: 32px;
-            padding: 50px 40px;
+            border-radius: 24px;
+            padding: 48px 40px;
             width: 100%;
-            max-width: 400px;
+            max-width: 380px;
             text-align: center;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.4);
         }
 
         .header {
-            margin-bottom: 35px;
+            margin-bottom: 32px;
         }
 
-        /* Indicator label using the pink accent */
         .category-label {
-            color: var(--cotton-candy);
+            color: var(--turquoise);
             text-transform: uppercase;
-            font-size: 12px;
+            font-size: 11px;
             letter-spacing: 2px;
-            font-weight: 800;
-            margin-bottom: 8px;
+            font-weight: 600;
+            margin-bottom: 10px;
             display: block;
         }
 
         h2 {
             margin: 0;
-            font-size: 32px;
-            font-weight: 800;
-            text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: var(--white);
+        }
+
+        .divider {
+            height: 1px;
+            background: var(--card-border);
+            margin-bottom: 28px;
         }
 
         .button-stack {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 14px;
         }
 
         button {
             width: 100%;
-            padding: 20px;
-            border-radius: 20px;
+            padding: 15px;
+            border-radius: 10px;
             border: none;
-            font-family: 'Nunito', sans-serif;
-            font-weight: 800;
-            font-size: 16px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 15px;
             cursor: pointer;
-            /* Bouncy transition from settlement tracker */
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
+            transition: all 0.2s ease;
+            letter-spacing: 0.2px;
         }
 
-        /* Primary Action - Blue */
         .btn-primary {
             background-color: var(--turquoise);
-            color: white;
-            box-shadow: 0 8px 15px rgba(13, 186, 204, 0.2);
+            color: #050a15;
+            box-shadow: 0 6px 16px rgba(16, 185, 129, 0.2);
         }
 
         .btn-primary:hover {
-            background-color: #12D3E6;
-            transform: scale(1.03);
-            box-shadow: 0 12px 25px rgba(13, 186, 204, 0.4);
+            background: #0ea873;
+            transform: translateY(-1px);
+            box-shadow: 0 10px 24px rgba(16, 185, 129, 0.35);
         }
 
-        /* Secondary Action - Ghost Button */
         .btn-secondary {
             background-color: transparent;
-            color: var(--white);
-            border: 2px solid var(--card-border);
+            color: var(--steel);
+            border: 1px solid var(--card-border);
         }
 
         .btn-secondary:hover {
-            background-color: rgba(255, 255, 255, 0.05);
-            border-color: var(--turquoise);
-            transform: scale(1.03);
+            background-color: rgba(255, 255, 255, 0.04);
+            border-color: rgba(255, 255, 255, 0.2);
+            color: var(--white);
         }
 
         .back-link {
-            margin-top: 30px;
+            margin-top: 24px;
             display: inline-block;
             color: var(--steel);
             text-decoration: none;
-            font-weight: 700;
-            font-size: 14px;
-            transition: all 0.3s ease;
-            opacity: 0.8;
+            font-size: 15px;
+            font-weight: 400;
+            transition: color 0.2s;
         }
 
         .back-link:hover {
-            color: var(--white);
-            opacity: 1;
+            color: var(--turquoise);
         }
 
         button:active {
@@ -136,23 +140,31 @@
 <div class="container">
     <div class="header">
         <span class="category-label">Receivables</span>
-        <h2>Who Owes You</h2>
+        <h2>To receive</h2>
     </div>
 
+    <div class="divider"></div>
+
     <div class="button-stack">
-        <button class="btn-primary" onclick="btnPrimary()" >Enter Details</button>
+        <button class="btn-primary" onclick="btnPrimary()">Enter Details</button>
         <button class="btn-secondary" onclick="btnSecondary()">View Records</button>
     </div>
 
-    <a href="option.html" class="back-link">← Back to Dashboard</a>
+    <a href="owns.html" class="back-link">← Back to Dashboard</a>
 </div>
 
 <script>
-    function btnPrimary(){
-         window.open('details1.html', '_blank');
+    const userId = localStorage.getItem("userId");
+    const token = localStorage.getItem("token");
+    if (!token || !userId) {
+        window.location.href = "login.html";
     }
-    function btnSecondary(){
-         window.open('history2.html', '_blank');
+
+    function btnPrimary() {
+        window.open('details1.html', '_blank');
+    }
+    function btnSecondary() {
+        window.open('history2.html', '_blank');
     }
 </script>
 </body>
