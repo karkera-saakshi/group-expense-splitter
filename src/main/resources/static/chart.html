@@ -287,6 +287,10 @@
 
         const monthlyData = {};
         data.forEach(item => {
+            if(!item.paid)
+            {
+                return;
+            }
             const month = new Date(item.createdAt).toLocaleString('default', { month: 'short' });
             if (!monthlyData[month]) {
                 monthlyData[month] = { received: 0, paid: 0 };
