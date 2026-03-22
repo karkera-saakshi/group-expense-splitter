@@ -374,7 +374,7 @@
 
     async function fetchHistory() {
         try {
-            const response = await fetch(`http://localhost:8081/histories/${userId}`, {
+            const response = await fetch(`https://debt-tracking-group-expense-splitter.onrender.com/histories/${userId}`, {
                 headers: { "Authorization": "Bearer " + token }
             });
             if (!response.ok) throw new Error("API Connection Failed");
@@ -450,7 +450,7 @@
 
     async function updateStatus(id, value) {
         try {
-            await fetch(`http://localhost:8081/status/${id}?paid=${value}`, {
+            await fetch(`https://debt-tracking-group-expense-splitter.onrender.com/status/${id}?paid=${value}`, {
                 method: "PATCH",
                 headers: { "Authorization": "Bearer " + token }
             });
@@ -467,7 +467,7 @@
         if (!confirm("Confirm deletion of this record?")) return;
 
         try {
-            await fetch(`http://localhost:8081/delete/${userId}/${id}`, {
+            await fetch(`https://debt-tracking-group-expense-splitter.onrender.com/delete/${userId}/${id}`, {
                 method: "DELETE",
                 headers: { "Authorization": "Bearer " + token }
             });
