@@ -48,7 +48,7 @@ public class JwtFilter extends OncePerRequestFilter {
                 }
 
             } catch (Exception e) {
-                System.out.println("JWT Error: " + e.getMessage()); // don’t keep it empty
+                System.out.println("JWT Error: " + e.getMessage());
             }
         }
 
