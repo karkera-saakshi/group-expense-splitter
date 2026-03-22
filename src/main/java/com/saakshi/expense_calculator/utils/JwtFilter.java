@@ -19,28 +19,39 @@ public class JwtFilter extends OncePerRequestFilter {
     JwtUtil jwtUtil;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-
-        // 1. OPTIONS request ko bypass karna compulsory hai
-        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
-            response.setStatus(HttpServletResponse.SC_OK);
-            return;
-        }
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain)
+            throws ServletException, IOException {
 
         String authHeader = request.getHeader("Authorization");
-        if(authHeader != null && authHeader.startsWith("Bearer ")) {
+
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+
             String token = authHeader.substring(7);
+
             try {
                 String username = jwtUtil.extractUsername(token);
-                if(username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+
+                if (username != null &&
+                        SecurityContextHolder.getContext().getAuthentication() == null &&
+                        jwtUtil.validateToken(token, username)) {
+
                     UsernamePasswordAuthenticationToken authToken =
-                            new UsernamePasswordAuthenticationToken(username, null, new ArrayList<>());
+                            new UsernamePasswordAuthenticationToken(
+                                    username,
+                                    null,
+                                    new ArrayList<>()
+                            );
+
                     SecurityContextHolder.getContext().setAuthentication(authToken);
                 }
+
             } catch (Exception e) {
-                System.out.println("JWT Verification Failed: " + e.getMessage());
+                System.out.println("JWT Error: " + e.getMessage()); // don’t keep it empty
             }
         }
+
         filterChain.doFilter(request, response);
     }
 }
