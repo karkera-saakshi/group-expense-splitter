@@ -39,6 +39,8 @@ public class SecurityConfig {
                                 "/option.html",
                                 "/details.html",
                                 "/owns.html",
+                                "/whomYouOwe.html",
+                                "/whoOwesYou.html",
 
                                 // static folders (IMPORTANT)
                                 "/css/**",
