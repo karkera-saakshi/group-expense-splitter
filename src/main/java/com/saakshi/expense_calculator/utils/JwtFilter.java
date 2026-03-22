@@ -20,19 +20,25 @@ public class JwtFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+
+        // 1. OPTIONS request ko bypass karna compulsory hai
+        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+            response.setStatus(HttpServletResponse.SC_OK);
+            return;
+        }
+
         String authHeader = request.getHeader("Authorization");
-        if(authHeader !=null && authHeader.startsWith("Bearer "))
-        {
+        if(authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7);
-            try{
+            try {
                 String username = jwtUtil.extractUsername(token);
-                if(username !=null && SecurityContextHolder.getContext().getAuthentication() == null)
-                {
-                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, null, new ArrayList<>());
+                if(username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                    UsernamePasswordAuthenticationToken authToken =
+                            new UsernamePasswordAuthenticationToken(username, null, new ArrayList<>());
                     SecurityContextHolder.getContext().setAuthentication(authToken);
                 }
             } catch (Exception e) {
-                //do nothing
+                System.out.println("JWT Verification Failed: " + e.getMessage());
             }
         }
         filterChain.doFilter(request, response);
