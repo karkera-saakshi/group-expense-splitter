@@ -32,7 +32,6 @@ public class OwnsController {
             throw new IllegalArgumentException("User not found with username: " + detailsDto.getSelfName());
         }
         Owns own = new Owns();
-        own.setUser(user);
 
         if (detailsDto.getSelfName() == null || detailsDto.getSelfName().trim().isEmpty()) {
             throw new IllegalArgumentException("Please enter name");

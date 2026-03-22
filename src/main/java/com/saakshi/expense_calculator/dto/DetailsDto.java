@@ -1,5 +1,6 @@
 package com.saakshi.expense_calculator.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.saakshi.expense_calculator.enums.Direction;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,5 +21,6 @@ public class DetailsDto {
     int reminderAfter;
     double amount;
     Direction direction;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     LocalDate dueDate;
 }
