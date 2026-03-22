@@ -31,14 +31,19 @@ public class SecurityConfig {
                                 "/login",
                                 "/register",
                                 "/",
+
+                                // HTML files
                                 "/index.html",
                                 "/login.html",
                                 "/signup.html",
                                 "/option.html",
                                 "/details.html",
-                                "/**/*.html",
-                                "/**/*.js",
-                                "/**/*.css"
+                                "/owns.html",
+
+                                // static folders (IMPORTANT)
+                                "/css/**",
+                                "/js/**",
+                                "/images/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
